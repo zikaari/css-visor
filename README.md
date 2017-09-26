@@ -9,7 +9,7 @@ The ultimate `style-loader` replacement you knew you needed
 
  - [#613 - css-loader with `sourceMap: true` cause adding style tag delayed](https://github.com/webpack-contrib/css-loader/issues/613)
 
- - [#591 - Use css sourceMaps in development](https://github.com/facebookincubator/create-react-app/pull/591#pullrequestreview-463675)
+ - [#591 - Use css sourceMaps in development](https://github.com/facebookincubator/create-react-app/pull/591#issuecomment-247807916)
 
 ## Usage
 
