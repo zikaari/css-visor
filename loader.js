@@ -52,10 +52,14 @@ function cssVisorLoader(content) {
                 .resolve(path.dirname(this.resourcePath), resourcePath)
                 .split("?")[0];
 
-            // If the required file is the css-loader helper, we return a noop function because we're extracting just the css
+            // If the required file is the css-loader helper, we just require it with node's require.
             // If the required file should be processed by a loader we do not touch it (even if it is a .js file).
             if (/^[^!]*css-base\.js$/i.test(resourcePath)) {
-                return () => { /* noop */ }
+                // Mark the file as dependency so webpack's watcher is working for css-base.js. Other dependencies
+                // are automatically added by loadModule() below
+                this.addDependency(absPath);
+
+                return require(absPath); // eslint-disable-line import/no-dynamic-require
             }
 
             // see if requested resource is yet another css file (css-loader literally resolves @import url('./common.css')), if so return an empty array to skip the include
@@ -123,7 +127,6 @@ function cssVisorLoader(content) {
                     `var hash = '${hash}'`,
                     `var staticPath = '/${staticPath}'`,
                     'if(typeof document !== "undefined") {',
-                    '   console.log(module, this)',
                     '   let linkTag = document.head.querySelector(`link[href^="${filename}"]`)',
                     '   if(!linkTag) {',
                     '       linkTag = document.createElement("link")',
