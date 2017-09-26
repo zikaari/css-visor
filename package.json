@@ -1,0 +1,30 @@
+{
+  "name": "css-visor",
+  "version": "0.1.0",
+  "description": "Webpack supervisor to inject and hot update stylesheets with sourcemaps",
+  "main": "plugin",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chipto/css-visor.git"
+  },
+  "keywords": [
+    "css",
+    "style",
+    "loader",
+    "webpack",
+    "hot",
+    "hmr",
+    "sourcemap"
+  ],
+  "author": "Neek Sandhu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chipto/css-visor/issues"
+  },
+  "homepage": "https://github.com/chipto/css-visor#readme",
+  "dependencies": {
+    "loader-utils": "^1.1.0",
+    "webpack-sources": "^1.0.1"
+  }
+}
