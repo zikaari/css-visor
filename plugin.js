@@ -64,22 +64,20 @@ class CSSVisor {
                 const sorter = (a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0
                 initialCSSAssets.sort(sorter)
                 nonInitialCSSAssets.sort(sorter)
-                initialCSSAssets.forEach(asset => {
-                    const {
-                        publicPath,
-                        source
-                    } = stylesheets.get(asset.resource)
-                    compilation.assets[publicPath] = source
-                    asset.forEachChunk(chunk => chunk.files.push(publicPath))
-                })
-                nonInitialCSSAssets.forEach(asset => {
-                    const {
-                        publicPath,
-                        source
-                    } = stylesheets.get(asset.resource)
-                    compilation.assets[publicPath] = source
-                    asset.forEachChunk(chunk => chunk.files.push(publicPath))
-                })
+
+                const addToCompilationAssets = asset => {
+                    if (stylesheets.has(asset.resource)) {
+                        const {
+                            publicPath,
+                            source
+                        } = stylesheets.get(asset.resource)
+                        compilation.assets[publicPath] = source
+                        asset.forEachChunk(chunk => chunk.files.push(publicPath))
+                    }
+                }
+
+                initialCSSAssets.forEach(addToCompilationAssets)
+                nonInitialCSSAssets.forEach(addToCompilationAssets)
                 // To-Do : memory clean up
                 // stylesheets.forEach((value, resourcePath) => {
                 //     if(!initialCSSAssets.find(o => o.resource === resourcePath)) {
