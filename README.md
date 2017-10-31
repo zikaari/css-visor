@@ -56,3 +56,8 @@ Not working? Make sure to have `css-visor/loader` right before `css-loader` and 
 
 Still not working? Please file an issue to have it known
 
+## Reliability
+`css-visor` is literally built from source of [extract-loader](https://github.com/peerigon/extract-loader). So far, it has shown no problems, even with imported stylsheets, images/svg's (processed through `url-loader`/`file-loader`). 
+
+The only things you can import in a CSS file anyway.
+
