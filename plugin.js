@@ -6,17 +6,7 @@ class CSSVisor {
     static registerAsset(path, asset) {
         stylesheets.set(path, asset)
     }
-    sortStylesheetOrder(compilation) {
-        compilation.chunks.forEach(chunk => {
-            let r = chunk.isInitial()
-            let v = chunk.hasRuntime()
-            chunk.forEachModule(module => {
-                if (this.moduleHasCSSLoader(module)) {
-                    var r = module.resource
-                }
-            })
-        })
-    }
+    
     moduleHasCSSLoader(module) {
         return module && Array.isArray(module.loaders) && module.loaders.find(o => /css-loader/.test(o.loader))
     }
@@ -61,7 +51,7 @@ class CSSVisor {
                         })
                     }
                 })
-                const sorter = (a, b) => (a.index > b.index) ? 1 : (b.index > a.index) ? -1 : 0
+                const sorter = (a, b) => a.index - b.index
                 initialCSSAssets.sort(sorter)
                 nonInitialCSSAssets.sort(sorter)
 
