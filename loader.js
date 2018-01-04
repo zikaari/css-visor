@@ -16,16 +16,6 @@ const {
 } = require('webpack-sources')
 
 /**
- * @name LoaderContext
- * @property {function} cacheable
- * @property {function} async
- * @property {function} addDependency
- * @property {function} loadModule
- * @property {string} resourcePath
- * @property {object} options
- */
-
-/**
  * Random placeholder. Marks the location in the source code where the result of other modules should be inserted.
  * @type {string}
  */
