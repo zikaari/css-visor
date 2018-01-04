@@ -31,7 +31,22 @@ module.exports = {
         rules: [{
             test: /\.css$/,
             use: [
-                'css-visor/loader',
+                {
+                    loader: 'css-visor/loader',
+                    // Optional
+                    options: {
+                        /**
+                         * Path prefix you'd like to be prefixed in <link> tag
+                         * 
+                         * Default: ''
+                         *  => <link href="/styles/button.da3n1b.css">
+                         * 
+                         * Custom: 'static/base'
+                         *  => <link href="/static/base/styles/button.da3n1b.css">
+                         */
+                        pathPrefix: 'static/styles' // default: ''
+                    }
+                },
                 {
                     loader: 'css-loader',
                     options: {
