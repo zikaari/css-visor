@@ -5,7 +5,8 @@ const {
 const vm = require('vm')
 const path = require('path')
 const {
-    interpolateName
+    interpolateName,
+    getOptions
 } = require('loader-utils')
 
 const {
@@ -39,6 +40,8 @@ const rndPlaceholder =
  * @param {string} content - the module's src
  */
 function cssVisorLoader(content) {
+    const loaderOptions = getOptions(this);
+    const pathPrefix = loaderOptions && loaderOptions.pathPrefix || '';
     const callback = this.async();
     const publicPath = this.options.output.publicPath
     const dependencies = [];
@@ -117,10 +120,10 @@ function cssVisorLoader(content) {
                 this.options.context,
                 path.dirname(this.resourcePath)
             ).replace(/\\/g, '/')
-            const staticPath = path.posix.join(basedir, hashedName)
-            const staticPathUnhased = path.posix.join(basedir, filename)
+            const staticPath = path.posix.join(pathPrefix, basedir, hashedName)
+            const staticPathUnhased = path.posix.join(pathPrefix, basedir, filename)
 
-            // Nothing fancy, we're just appending HMR code to whatever css-loader emitted 
+            // Nothing fancy, we're just appending HMR code to whatever css-loader emitted
             const src = new ConcatSource(
                 content, [
                     `var filename = '/${staticPathUnhased}'`,
