@@ -116,9 +116,9 @@ function cssVisorLoader(content) {
             // Nothing fancy, we're just appending HMR code to whatever css-loader emitted
             const src = new ConcatSource(
                 content, [
-                    `var filename = '/${staticPathUnhased}'`,
+                    `var filename = '${staticPathUnhased}'`,
                     `var hash = '${hash}'`,
-                    `var staticPath = '/${staticPath}'`,
+                    `var staticPath = '${staticPath}'`,
                     'if(typeof document !== "undefined") {',
                     '   let linkTag = document.head.querySelector(`link[href^="${filename}"]`)',
                     '   if(!linkTag) {',
