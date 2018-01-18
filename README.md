@@ -76,3 +76,7 @@ Still not working? Please file an issue to have it known
 
 The only things you can import in a CSS file anyway.
 
+## External Licenses
+
+Much of the code taken from [extract-loader](https://github.com/peerigon/extract-loader) which is Unlicensed, see [extract-loader/LICENSE](https://github.com/peerigon/extract-loader/blob/master/LICENSE)for more information. 
+
