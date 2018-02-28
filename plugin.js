@@ -26,6 +26,7 @@ class CSSVisor {
                         throw new Error('css-visor/loader installed but in wrong order. It must be the first thing that runs right after css-loader')
                     }
                     if (cssVisorIdx === -1) {
+                        console.warn(`css-visor plugin activated but accompanying loader was not found. Auto-injecting 'css-visor/loader'`)
                         module.loaders.splice(cssLoaderIdx, 0, {
                             loader: require.resolve('./loader')
                         })
