@@ -6,12 +6,13 @@ class CSSVisor {
     static registerAsset(path, asset) {
         stylesheets.set(path, asset)
     }
-    
+
     moduleHasCSSLoader(module) {
         return module && Array.isArray(module.loaders) && module.loaders.find(o => /css-loader/.test(o.loader))
     }
+    
     apply(compiler) {
-        compiler.plugin('this-compilation', (compilation) => {
+        compiler.hooks.thisCompilation.tap('css-visor', (compilation) => {
             compilation.plugin('build-module', (module) => {
                 if (this.moduleHasCSSLoader(module)) {
                     let mod = module
@@ -34,27 +35,17 @@ class CSSVisor {
                 }
             })
 
-            compilation.plugin('additional-assets', (callback) => {
-                const initialCSSAssets = []
-                const nonInitialCSSAssets = []
-                compilation.chunks.forEach(chunk => {
-                    if (chunk.isInitial()) {
-                        chunk.forEachModule(module => {
-                            if (this.moduleHasCSSLoader(module)) {
-                                initialCSSAssets.push(module)
-                            }
-                        })
-                    } else {
-                        chunk.forEachModule(module => {
-                            if (this.moduleHasCSSLoader(module)) {
-                                nonInitialCSSAssets.push(module)
-                            }
-                        })
+            compilation.hooks.additionalAssets.tapAsync('css-visor', (callback) => {
+                const cssAssets = []
+                for (let chunk of compilation.chunks) {
+                    for (const module of chunk.modulesIterable) {
+                        if (this.moduleHasCSSLoader(module)) {
+                            cssAssets.push(module)
+                        }
                     }
-                })
-                const sorter = (a, b) => a.index - b.index
-                initialCSSAssets.sort(sorter)
-                nonInitialCSSAssets.sort(sorter)
+                }
+
+                cssAssets.sort((a, b) => a.index - b.index)
 
                 const addToCompilationAssets = asset => {
                     if (stylesheets.has(asset.resource)) {
@@ -63,12 +54,13 @@ class CSSVisor {
                             source
                         } = stylesheets.get(asset.resource)
                         compilation.assets[publicPath] = source
-                        asset.forEachChunk(chunk => chunk.files.push(publicPath))
+                        for (const chunk of asset.chunksIterable) {
+                            chunk.files.push(publicPath)
+                        }
                     }
                 }
 
-                initialCSSAssets.forEach(addToCompilationAssets)
-                nonInitialCSSAssets.forEach(addToCompilationAssets)
+                cssAssets.forEach(addToCompilationAssets)
                 // To-Do : memory clean up
                 // stylesheets.forEach((value, resourcePath) => {
                 //     if(!initialCSSAssets.find(o => o.resource === resourcePath)) {

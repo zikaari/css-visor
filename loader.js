@@ -22,18 +22,11 @@ const {
 const rndPlaceholder =
     "__EXTRACT_LOADER_PLACEHOLDER__" + rndNumber() + rndNumber();
 
-/**
- * Executes the given module's src in a fake context in order to get the resulting string.
- *
- * @this LoaderContext
- * @throws Error
- * @param {string} content - the module's src
- */
 function cssVisorLoader(content) {
     const loaderOptions = getOptions(this);
     const pathPrefix = loaderOptions && loaderOptions.pathPrefix || '';
     const callback = this.async();
-    const publicPath = this.options.output.publicPath
+    const publicPath = this._compiler.options.output.publicPath
     const dependencies = [];
     const script = new vm.Script(content, {
         filename: this.resourcePath,
@@ -107,7 +100,7 @@ function cssVisorLoader(content) {
             const filename = name.slice(0, idx)
             const hashedName = filename + `.${hash}` + '.css'
             const basedir = path.relative(
-                this.options.context,
+                this._compiler.options.context,
                 path.dirname(this.resourcePath)
             ).replace(/\\/g, '/')
             const staticPath = path.posix.join(pathPrefix, basedir, hashedName)
