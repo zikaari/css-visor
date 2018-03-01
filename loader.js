@@ -25,6 +25,9 @@ const rndPlaceholder =
 function cssVisorLoader(content) {
     const loaderOptions = getOptions(this);
     const pathPrefix = loaderOptions && loaderOptions.pathPrefix || '';
+    if(pathPrefix.indexOf('/') === 0) {
+        pathPrefix = pathPrefix.slice(1)
+    }
     const callback = this.async();
     const publicPath = this._compiler.options.output.publicPath
     const dependencies = [];
@@ -109,9 +112,9 @@ function cssVisorLoader(content) {
             // Nothing fancy, we're just appending HMR code to whatever css-loader emitted
             const src = new ConcatSource(
                 content, [
-                    `var filename = '${staticPathUnhased}'`,
+                    `var filename = '/${staticPathUnhased}'`,
                     `var hash = '${hash}'`,
-                    `var staticPath = '${staticPath}'`,
+                    `var staticPath = '/${staticPath}'`,
                     'if(typeof document !== "undefined") {',
                     `   var linkTag = document.head.querySelector('link[href^="' + filename + '"]');`,
                     '   if(!linkTag) {',
@@ -124,10 +127,8 @@ function cssVisorLoader(content) {
                     '   if(module.hot) {',
                     '       module.hot.accept()',
                     '       module.hot.dispose(function() {',
-                    '           setTimeout(function() {',
-                    `               var link = document.head.querySelector('link[href="' + staticPath + '"]');`,
-                    '               if(link) link.parentElement.removeChild(link)',
-                    '               }, 500)',
+                    `           var link = document.head.querySelector('link[href="' + staticPath + '"]');`,
+                    '           if(link) link.parentElement.removeChild(link)',
                     '       })',
                     '   }',
                     '}'

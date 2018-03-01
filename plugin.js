@@ -8,9 +8,9 @@ class CSSVisor {
     }
 
     moduleHasCSSLoader(module) {
-        return module && Array.isArray(module.loaders) && module.loaders.find(o => /css-loader/.test(o.loader))
+        return module && Array.isArray(module.loaders) && module.loaders.find(o => /css-loader[\/\\]index\.js/.test(o.loader))
     }
-    
+
     apply(compiler) {
         compiler.hooks.thisCompilation.tap('css-visor', (compilation) => {
             compilation.plugin('build-module', (module) => {
@@ -21,8 +21,8 @@ class CSSVisor {
                             throw new Error('css-visor cannot be used along with style-loader, remove style-loader from loader chain to fix')
                         }
                     }
-                    const cssLoaderIdx = module.loaders.findIndex(o => /css-loader/.test(o.loader))
-                    const cssVisorIdx = module.loaders.findIndex(o => /css-visor/.test(o.loader))
+                    const cssLoaderIdx = module.loaders.findIndex(o => /css-loader[\/\\]index\.js/.test(o.loader))
+                    const cssVisorIdx = module.loaders.findIndex(o => /css-visor[\/\\]loader\.js/.test(o.loader))
                     if (cssVisorIdx > -1 && cssVisorIdx + 1 !== cssLoaderIdx) {
                         throw new Error('css-visor/loader installed but in wrong order. It must be the first thing that runs right after css-loader')
                     }
