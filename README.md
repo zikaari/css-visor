@@ -71,6 +71,8 @@ Not working? Make sure to have `css-visor/loader` right before `css-loader` and 
 
 Still not working? Please file an issue to have it known
 
+> This release is only compatible with webpack 4 and up. To use with an older version of webpack use `npm i css-visor@1.0`, although `1.0` is no longer maintained
+
 ## Reliability
 `css-visor` is literally built from source of [extract-loader](https://github.com/peerigon/extract-loader). So far, it has shown no problems, even with imported stylsheets, images/svg's (processed through `url-loader`/`file-loader`). 
 
