@@ -6,7 +6,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chipto/css-visor.git"
+    "url": "git+https://github.com/NeekSandhu/css-visor.git"
   },
   "keywords": [
     "css",
@@ -20,9 +20,9 @@
   "author": "Neek Sandhu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chipto/css-visor/issues"
+    "url": "https://github.com/NeekSandhu/css-visor/issues"
   },
-  "homepage": "https://github.com/chipto/css-visor#readme",
+  "homepage": "https://github.com/NeekSandhu/css-visor#readme",
   "dependencies": {
     "loader-utils": "^1.1.0",
     "webpack-sources": "^1.0.1"
